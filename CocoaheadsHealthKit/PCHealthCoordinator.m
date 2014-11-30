@@ -130,7 +130,7 @@ NSString * const PCHealthWorkoutsLoaded = @"WORKOUT_LOADED";
     
     NSSortDescriptor *timeSortDescriptor = [[NSSortDescriptor alloc] initWithKey:HKSampleSortIdentifierEndDate ascending:NO];
     //query first the steps and then the distance
-    HKSampleQuery *stepsQuery = [[HKSampleQuery alloc] initWithSampleType:hkStepsType predicate:pred limit:-1 sortDescriptors:@[timeSortDescriptor] resultsHandler:^(HKSampleQuery *query, NSArray *results, NSError *error) {
+    HKSampleQuery *stepsQuery = [[HKSampleQuery alloc] initWithSampleType:hkStepsType predicate:pred limit:HKObjectQueryNoLimit sortDescriptors:@[timeSortDescriptor] resultsHandler:^(HKSampleQuery *query, NSArray *results, NSError *error) {
         if (results.count > 0) {
             double totalSteps = 0;
             for (HKQuantitySample *stepsSample in results) {
@@ -139,7 +139,7 @@ NSString * const PCHealthWorkoutsLoaded = @"WORKOUT_LOADED";
                     totalSteps += steps;
                 }
             }
-            HKSampleQuery *distanceQuery = [[HKSampleQuery alloc] initWithSampleType:hkDistanceType predicate:pred limit:-1 sortDescriptors:@[timeSortDescriptor] resultsHandler:^(HKSampleQuery *query, NSArray *results, NSError *error) {
+            HKSampleQuery *distanceQuery = [[HKSampleQuery alloc] initWithSampleType:hkDistanceType predicate:pred limit:HKObjectQueryNoLimit sortDescriptors:@[timeSortDescriptor] resultsHandler:^(HKSampleQuery *query, NSArray *results, NSError *error) {
                 double totalDistance = 0;
                 NSTimeInterval totalTime = 0;
                 if (results.count > 0) {
@@ -244,7 +244,7 @@ NSString * const PCHealthWorkoutsLoaded = @"WORKOUT_LOADED";
         NSPredicate *todayWorkouts = [self predicateForToday];
         NSSortDescriptor *timeSortDescriptor = [[NSSortDescriptor alloc] initWithKey:HKSampleSortIdentifierEndDate ascending:NO];
         //if you get more than 10 exercises workouts in just 24h would be weird
-        HKSampleQuery *exerciseQuery = [[HKSampleQuery alloc] initWithSampleType:hkWorkoutsType predicate:todayWorkouts limit:10 sortDescriptors:@[timeSortDescriptor] resultsHandler:^(HKSampleQuery *query, NSArray *results, NSError *error) {
+        HKSampleQuery *exerciseQuery = [[HKSampleQuery alloc] initWithSampleType:hkWorkoutsType predicate:todayWorkouts limit:HKObjectQueryNoLimit sortDescriptors:@[timeSortDescriptor] resultsHandler:^(HKSampleQuery *query, NSArray *results, NSError *error) {
             if (results.count > 0) {
                 NSMutableArray *workouts = [@[] mutableCopy];
                 
